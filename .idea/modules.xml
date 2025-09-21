@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/dao-jdbc.iml" filepath="$PROJECT_DIR$/.idea/dao-jdbc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ddd-daojdbc/ddd-daojdbc.iml" filepath="$PROJECT_DIR$/ddd-daojdbc/ddd-daojdbc.iml" />
     </modules>
   </component>
 </project>
