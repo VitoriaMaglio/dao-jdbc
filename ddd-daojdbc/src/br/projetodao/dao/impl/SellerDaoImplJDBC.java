@@ -87,7 +87,44 @@ public class SellerDaoImplJDBC implements SellerDao {
 
     @Override
     public List<Seller> findAll() {
-        return List.of();
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try{
+            st= conn.prepareStatement("SELECT seller.*,department.Name as DepName  \n" +
+                    "FROM seller INNER JOIN department  \n" +
+                    "ON seller.DepartmentId = department.Id \n" +
+                    "ORDER BY Name ");
+            //buscar todos os campos de vendedor + o nome do departamento com um apelido,
+            //faz um join das duas tabelas, faz uma restrição de índice de department e imprime com nome
+            //aqui vai imprimir todos os vendedores com departamento igual
+            rs = st.executeQuery();
+            //resultset trás dados em tabela, porém em java criamos objetos associados
+
+            List<Seller> list = new ArrayList<>();
+            Map<Integer, Department> map = new HashMap<>();//guardar todo departamento q for instanciado
+            while (rs.next()){
+                //reaproveita o department
+                Department dep = map.get(rs.getInt("DepartmentId"));//verifica se departamento já existe
+                if(dep == null){//instancia
+                    dep = instantiaDepartment(rs);
+                    map.put(rs.getInt("DepartmentID"),dep);
+                }
+                //errado instanciar objetos vendedores no qual cada um aponta para o mesmo departamento
+//com isso nós temos um só departamento na memória e os vendedores apontando para ele.
+                Seller seller = instantiaSeller(rs,dep);
+                //ao transformar a parte de setar os dados do banco em métodos vc está reutilizando instanciação
+                list.add(seller);
+
+            }
+            return list;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+        }
+
     }
 
     @Override
@@ -121,14 +158,17 @@ public class SellerDaoImplJDBC implements SellerDao {
                 Seller seller = instantiaSeller(rs,dep);
                 //ao transformar a parte de setar os dados do banco em métodos vc está reutilizando instanciação
                 list.add(seller);
-                return list;
+
             }
+            return list;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
             DB.closeStatement(st);
             DB.closeResultSet(rs);
         }
-        return List.of();
+
     }
+
+    //find all sem restrição
 }
