@@ -13,7 +13,7 @@ public class DB {
 
 	private static Connection conn = null;
 	
-	public static Connection getConnection() {
+	public static Connection getConnection() throws DbException {
 		if (conn == null) {
 			try {
 				Properties props = loadProperties();
