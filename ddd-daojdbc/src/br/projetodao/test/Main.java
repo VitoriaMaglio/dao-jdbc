@@ -35,4 +35,10 @@ public class Main {
         for(Seller obj2 : list){
             System.out.println(obj2);
         }
+        System.out.println("=== TEST 4: Insert ===");
+        Seller seller = new Seller(21, "Bob", "bob@gmail", new Date(), 3000.0, department);
+        sellerDao.insert(seller);
+        System.out.println(seller.getId());
+
+
 }}
