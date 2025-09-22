@@ -50,16 +50,9 @@ public class SellerDaoImplJDBC implements SellerDao {
             rs = st.executeQuery();
             //resultset trás dados em tabela, porém em java criamos objetos associados
             if(rs.next()){
-                Department dep = new Department();
-                dep.setId(rs.getInt("DepartmentId"));
-                dep.setName(rs.getString("DepName"));
-                Seller seller = new Seller();
-                seller.setId(rs.getInt("Id"));
-                seller.setName(rs.getString("Name"));
-                seller.setEmail(rs.getString("Email"));
-                seller.setBaseSalary(rs.getDouble("BaseSalary"));
-                seller.setBirthDate(rs.getDate("BirthDate"));
-                seller.setDepartment(dep);
+                Department dep = instantiaDepartment(rs);
+                Seller seller = instantiaSeller(rs,dep);
+                //ao transformar a parte de setar os dados do banco em métodos vc está reutilizando instanciação
                 return seller;
             }
         } catch (SQLException e) {
@@ -69,6 +62,24 @@ public class SellerDaoImplJDBC implements SellerDao {
             DB.closeResultSet(rs);
         }
         return null;
+    }
+
+    private Seller instantiaSeller(ResultSet rs, Department dep) throws SQLException {
+        Seller seller = new Seller();
+        seller.setId(rs.getInt("Id"));
+        seller.setName(rs.getString("Name"));
+        seller.setEmail(rs.getString("Email"));
+        seller.setBaseSalary(rs.getDouble("BaseSalary"));
+        seller.setBirthDate(rs.getDate("BirthDate"));
+        seller.setDepartment(dep);
+        return seller;
+    }
+
+    private Department instantiaDepartment(ResultSet rs) throws SQLException {
+        Department dep = new Department();
+        dep.setId(rs.getInt("DepartmentId"));
+        dep.setName(rs.getString("DepName"));
+        return dep;
     }
 
     @Override
