@@ -30,7 +30,7 @@ public class Main {
         for(Seller obj2 : list){
             System.out.println(obj2);
         }
-        System.out.println("=== TEST 3: seller findAll ===");
+         System.out.println("=== TEST 3: seller findAll ===");
         list =  sellerDao.findAll();
         for(Seller obj2 : list){
             System.out.println(obj2);
@@ -39,6 +39,12 @@ public class Main {
         Seller seller = new Seller(21, "Bob", "bob@gmail", new Date(), 3000.0, department);
         sellerDao.insert(seller);
         System.out.println(seller.getId());
+
+        System.out.println("=== TEST 5: Update ===");
+        seller1 = sellerDao.findById(3);
+        seller1.setName("Vitória");
+        sellerDao.update(seller1);//passar a informação para o banco
+        System.out.println("Update complete");
 
 
 }}
