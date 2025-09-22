@@ -7,6 +7,7 @@ import br.projetodao.model.Seller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -16,6 +17,8 @@ public class Main {
         //System.out.println(obj);
         //Seller seller = new Seller(21, "Bob", "bob@gmail", new Date(), 3000.0, obj);
         //System.out.println(seller);
+        Scanner sc = new Scanner(System.in);
+
         SellerDao sellerDao = DaoFactory.createSellerDao();
 
         System.out.println("=== TEST 1: seller findByYd ===");
@@ -46,5 +49,12 @@ public class Main {
         sellerDao.update(seller1);//passar a informação para o banco
         System.out.println("Update complete");
 
+        System.out.println("=== TEST 6: Delete ===");
+        System.out.println("\n=== TEST 6: seller delete =====");
+        System.out.println("Enter id for delete test: ");
+        int id = sc.nextInt();
+        sellerDao.deleteById(id);
+        System.out.println("Delete completed");
 
+        sc.close();
 }}
