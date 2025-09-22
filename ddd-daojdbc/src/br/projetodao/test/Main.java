@@ -1,5 +1,7 @@
 package br.projetodao.test;
 
+import br.projetodao.dao.DaoFactory;
+import br.projetodao.dao.SellerDao;
 import br.projetodao.model.Department;
 import br.projetodao.model.Seller;
 
@@ -13,5 +15,6 @@ public class Main {
         System.out.println(obj);
         Seller seller = new Seller(21, "Bob", "bob@gmail", new Date(), 3000.0, obj);
         System.out.println(seller);
+        SellerDao sellerDao = DaoFactory.createSellerDao();
 
 }}
